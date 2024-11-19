@@ -1,23 +1,19 @@
-from flask import Blueprint, request, jsonify
-from .zoho_utils import fetch_zoho_emails, download_attachments
-from .s3_utils import upload_file_to_s3
+from flask import Blueprint, jsonify
+from .zoho_utils import fetch_and_process_emails
 
+# Define the blueprint for email data routes
 email_data_bp = Blueprint('email_data', __name__)
 
 @email_data_bp.route('/fetch', methods=['POST'])
 def fetch_emails():
-    emails = fetch_zoho_emails()
-    email_metadata = []
-
-    for email in emails:
-        attachments = download_attachments(email['id'])
-        for attachment in attachments:
-            file_path = f"emails/{email['id']}/{attachment['file_name']}"
-            s3_url = upload_file_to_s3(attachment['file_content'], file_path)
-            email_metadata.append({
-                "email_id": email['id'],
-                "subject": email['subject'],
-                "attachment_url": s3_url
-            })
-
-    return jsonify({"message": "Emails processed successfully", "email_metadata": email_metadata})
+    """
+    Fetch emails from Zoho's POP3 server, process attachments,
+    upload them to S3, and delete processed emails from the server.
+    """
+    try:
+        # Call the fetch_and_process_emails function
+        response = fetch_and_process_emails()
+        return jsonify(response)
+    except Exception as e:
+        # Handle errors and return an appropriate response
+        return jsonify({"error": str(e)}), 500
