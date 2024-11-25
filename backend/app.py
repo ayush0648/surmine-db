@@ -10,3 +10,4 @@ app.register_blueprint(email_attachments_bp, url_prefix="/email-attachments")
 
 if __name__ == "__main__":
     app.run(debug=True)
+

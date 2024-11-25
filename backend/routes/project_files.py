@@ -6,6 +6,9 @@ project_files_bp = Blueprint('project_files', __name__)
 
 @project_files_bp.route("/upload", methods=["POST"])
 def upload_project_file():
+    print(f"Request URL: {request.url}")
+    print(f"Request data: {request.form}")
+    print(f"File: {request.files.get('file')}")
     customer = request.form.get("customer")
     project = request.form.get("project")
     file = request.files.get("file")
