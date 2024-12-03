@@ -8,4 +8,3 @@ app.register_blueprint(project_files_bp, url_prefix="/project-files")
 
 if __name__ == "__main__":
     app.run(debug=True)
-
