@@ -32,4 +32,4 @@ def upload_multiple_files():
         s3_url = upload_file_to_s3(file, key)
         uploaded_files.append({"file_name": original_filename, "url": s3_url})
 
-    return jsonify({"message": "Files uploaded successfully", "files": uploaded_files})
+    return jsonify({}), 200
