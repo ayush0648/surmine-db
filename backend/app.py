@@ -9,11 +9,12 @@ CORS(app)
 
 @app.route("/")
 def serve_index():
-    return send_from_directory(app.static_folder, "index.html")
+    return send_from_directory(os.path.join(app.root_path, 'frontend'), "index.html")
 
+# Serve static files (JavaScript and CSS) from the frontend folder
 @app.route("/<path:path>")
 def serve_static_files(path):
-    return send_from_directory(app.static_folder, path)
+    return send_from_directory(os.path.join(app.root_path, 'frontend'), path)
 
 # Register blueprints
 app.register_blueprint(project_files_bp, url_prefix="/project-files")
