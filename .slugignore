@@ -1,0 +1,6 @@
+.heroku/
+.idea/
+*.log
+*.cache
+*.pyc
+*.pyo
