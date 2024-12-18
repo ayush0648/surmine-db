@@ -1,6 +1,7 @@
 import boto3
 import os
 import logging
+from botocore.exceptions import ClientError
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -11,6 +12,7 @@ logging.debug("AWS_SECRET_ACCESS_KEY: %s", os.getenv("AWS_SECRET_ACCESS_KEY"))
 logging.debug("AWS_REGION: %s", os.getenv("AWS_REGION"))
 logging.debug("S3_BUCKET_NAME: %s", os.getenv("S3_BUCKET_NAME"))
 
+# Initialize S3 client
 s3 = boto3.client(
     "s3",
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
@@ -28,6 +30,13 @@ def upload_file_to_s3(file_obj, key):
         file_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{key}"
         logging.debug("File uploaded successfully: %s", file_url)
         return file_url
+    except ClientError as e:
+        # Capture AWS-specific error codes
+        error_code = e.response['Error']['Code']
+        error_message = e.response['Error']['Message']
+        logging.error("AWS error occurred: %s - %s", error_code, error_message)
+        raise
     except Exception as e:
-        logging.error("Error uploading file to S3: %s", e)
+        # Catch other exceptions
+        logging.error("An unexpected error occurred: %s", e)
         raise
