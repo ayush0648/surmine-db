@@ -4,7 +4,7 @@ from backend.routes.project_files import project_files_bp
 from flask import send_from_directory
 import os
 
-app = Flask(__name__, static_folder='frontend')
+app = Flask(__name__, static_folder=os.path.join(os.getcwd(), 'frontend'))
 
 CORS(app)
 
