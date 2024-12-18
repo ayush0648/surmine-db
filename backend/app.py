@@ -4,18 +4,19 @@ from backend.routes.project_files import project_files_bp
 from flask import send_from_directory
 import os
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='frontend')
 
 CORS(app)
 
+# Route to serve index.html
 @app.route("/")
 def serve_index():
-    return send_from_directory(os.path.join(app.root_path, 'frontend'), "index.html")
+    return send_from_directory(app.static_folder, "index.html")
 
-# Serve static files (JavaScript and CSS) from the frontend folder
+# Route to serve static files (JS, CSS, etc.)
 @app.route("/<path:path>")
 def serve_static_files(path):
-    return send_from_directory(os.path.join(app.root_path, 'frontend'), path)
+    return send_from_directory(app.static_folder, path)
 
 # Register blueprints
 app.register_blueprint(project_files_bp, url_prefix="/project-files")
