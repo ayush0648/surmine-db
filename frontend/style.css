@@ -1,45 +1,126 @@
-
+/* General Styling */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
 }
 
-h1 {
+h1, h2 {
     color: #333;
-}
-
-form {
-    background: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    max-width: 400px;
-    margin: auto;
-}
-
-input, button {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    margin: 0;
 }
 
 button {
-    background: #007bff;
-    color: #fff;
+    padding: 10px;
+    font-size: 16px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
     background: #0056b3;
+    color: #fff;
 }
 
+/* Layout */
+#container {
+    display: flex;
+    height: 100vh;
+}
+
+#sidebar {
+    width: 250px;
+    background: #007bff;
+    color: #fff;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+#main {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Navigation */
+#navigation div {
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #0056b3;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#navigation div:hover {
+    background: #003f7f;
+}
+
+/* Content */
+#content div {
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#content div:hover {
+    background: #f1f1f1;
+}
+
+/* Upload Modal */
+#uploadModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    z-index: 1000;
+}
+
+#uploadModal h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#uploadModal button {
+    width: 48%;
+    margin: 5px 1%;
+}
+
+#uploadModal button[type="submit"] {
+    background: #007bff;
+    color: #fff;
+}
+
+#uploadModal button[type="button"] {
+    background: #f4f4f9;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+#uploadModal button[type="button"]:hover {
+    background: #ddd;
+}
+
+/* Miscellaneous */
 #response {
     margin-top: 20px;
-    max-width: 400px;
-    margin: auto;
+    text-align: center;
+    color: #007bff;
+}
+
+#response h2 {
+    margin: 0;
 }

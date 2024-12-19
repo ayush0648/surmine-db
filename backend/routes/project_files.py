@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from backend.utils.s3_utils import upload_file_to_s3
+from backend.utils.s3_utils import upload_file_to_s3, BUCKET_NAME
 import os
 from datetime import datetime
 import logging
@@ -44,3 +44,33 @@ def upload_multiple_files():
             return jsonify({"error": "File upload failed"}), 500
 
     return jsonify({"uploaded_files": uploaded_files}), 200
+@project_files_bp.route("/list-customers", methods=["GET"])
+def list_customers():
+    try:
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Delimiter="/", Prefix="customers/")
+        customers = [prefix['Prefix'].split('/')[1] for prefix in response.get('CommonPrefixes', [])]
+        return jsonify({"customers": customers})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@project_files_bp.route("/list-projects/<customer>", methods=["GET"])
+def list_projects(customer):
+    prefix = f"customers/{customer}/"
+    try:
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Delimiter="/", Prefix=prefix)
+        projects = [prefix['Prefix'].split('/')[2] for prefix in response.get('CommonPrefixes', [])]
+        return jsonify({"projects": projects})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@project_files_bp.route("/list-files/<customer>/<project>", methods=["GET"])
+def list_files(customer, project):
+    prefix = f"customers/{customer}/{project}/"
+    try:
+        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=prefix)
+        files = [obj['Key'].split('/')[-1] for obj in response.get('Contents', [])]
+        return jsonify({"files": files})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

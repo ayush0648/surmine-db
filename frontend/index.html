@@ -3,34 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project File Upload</title>
+    <title>File Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Project File Upload</h1>
+    <div id="container">
+        <div id="sidebar">
+            <button id="uploadButton">Upload</button>
+            <div id="navigation"></div>
+        </div>
+        <div id="main">
+            <div id="content"></div>
+        </div>
+    </div>
 
     <!-- Upload Form -->
-    <form id="uploadForm" enctype="multipart/form-data">
-        <label for="customer">Customer Name:</label>
-        <input type="text" id="customer" name="customer" placeholder="Enter customer name" required>
-        <br><br>
+    <div id="uploadModal" style="display: none;">
+        <h2>Upload Files</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="customer">Customer Name:</label>
+            <input type="text" id="customer" name="customer" placeholder="Enter customer name" required>
+            <br><br>
 
-        <label for="project">Project Name:</label>
-        <input type="text" id="project" name="project" placeholder="Enter project name" required>
-        <br><br>
+            <label for="project">Project Name:</label>
+            <input type="text" id="project" name="project" placeholder="Enter project name" required>
+            <br><br>
 
-        <label for="folder">Folder (Optional):</label>
-        <input type="text" id="folder" name="folder" placeholder="Enter folder name">
-        <br><br>
+            <label for="folder">Folder (Optional):</label>
+            <input type="text" id="folder" name="folder" placeholder="Enter folder name">
+            <br><br>
 
-        <label for="files">Select Files:</label>
-        <input type="file" id="files" name="files" multiple required>
-        <br><br>
+            <label for="files">Select Files:</label>
+            <input type="file" id="files" name="files" multiple required>
+            <br><br>
 
-        <button type="submit">Upload Files</button>
-    </form>
-
-    <div id="response"></div>
+            <button type="submit">Upload Files</button>
+            <button type="button" id="cancelUpload">Cancel</button>
+        </form>
+    </div>
 
     <script src="app.js"></script>
 </body>
