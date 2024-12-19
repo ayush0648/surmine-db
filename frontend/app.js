@@ -1,5 +1,5 @@
 // API endpoint for file uploads
-const apiEndpoint = "http://127.0.0.1:5000/project-files/upload-multiple";
+const apiEndpoint = "https://surmine-bec9180195b8.herokuapp.com/project-files/upload-multiple";
 
 // Form submission event handler
 document.getElementById("uploadForm").addEventListener("submit", async function (event) {
