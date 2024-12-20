@@ -3,6 +3,8 @@ from backend.utils.s3_utils import upload_file_to_s3, BUCKET_NAME
 import os
 from datetime import datetime
 import logging
+from backend.utils.s3_utils import list_s3_directories
+
 
 project_files_bp = Blueprint('project_files', __name__)
 

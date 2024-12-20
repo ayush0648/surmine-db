@@ -2,7 +2,6 @@ import boto3
 import os
 import logging
 from botocore.exceptions import ClientError
-from utils.s3_utils import list_s3_directories
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
