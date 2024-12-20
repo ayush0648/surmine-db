@@ -40,3 +40,8 @@ def upload_file_to_s3(file_obj, key):
         # Catch other exceptions
         logging.error("An unexpected error occurred: %s", e)
         raise
+
+def list_s3_directories(prefix):
+    """List directories in S3 under a given prefix."""
+    response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=prefix, Delimiter="/")
+    return [obj["Prefix"] for obj in response.get("CommonPrefixes", [])]

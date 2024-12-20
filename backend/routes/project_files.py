@@ -44,14 +44,15 @@ def upload_multiple_files():
             return jsonify({"error": "File upload failed"}), 500
 
     return jsonify({"uploaded_files": uploaded_files}), 200
+
 @project_files_bp.route("/list-customers", methods=["GET"])
 def list_customers():
     try:
-        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Delimiter="/", Prefix="customers/")
-        customers = [prefix['Prefix'].split('/')[1] for prefix in response.get('CommonPrefixes', [])]
-        return jsonify({"customers": customers})
+        customers = list_s3_directories("customers/")  # Prefix to list customer folders
+        return jsonify({"customers": customers}), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"Error listing customers: {str(e)}")  # Log the error for Heroku logs
+        return jsonify({"error": "Failed to list customers"}), 500
 
 
 @project_files_bp.route("/list-projects/<customer>", methods=["GET"])
