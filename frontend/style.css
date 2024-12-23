@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
+    padding-top: 100px; /* Add space for the fixed logo */
 }
 
 /* Header Styles */
@@ -11,7 +12,7 @@ h1 {
     text-align: center;
     color: #333;
     font-size: 2.5rem;
-    margin-top: 20px;
+    margin-top: 0;
     font-weight: bold;
 }
 
