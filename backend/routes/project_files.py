@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from backend.utils.s3_utils import upload_file_to_s3, BUCKET_NAME
+from backend.utils.s3_utils import upload_file_to_s3, BUCKET_NAME, s3
 import os
 from datetime import datetime
 import logging
