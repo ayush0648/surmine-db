@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 from backend.utils.s3_utils import list_s3_directories, list_s3_files, upload_file_to_s3
+import os
+from datetime import datetime
 
 project_files_bp = Blueprint("project_files", __name__)
 
@@ -44,15 +46,20 @@ def upload_multiple_files():
     uploaded_files = []
     for file in files:
         try:
+            # Generate new file name with date and time
+            current_time = datetime.now().strftime("%d%m%Y_%H%M%S")
+            original_name, extension = os.path.splitext(file.filename)
+            new_filename = f"{original_name}_{current_time}{extension}"
+
             # Generate S3 key
             key = f"customers/{customer}/{project}/"
             if folder:
                 key += f"{folder}/"
-            key += file.filename
+            key += new_filename
 
             # Upload file
             s3_url = upload_file_to_s3(file, key)
-            uploaded_files.append({"file_name": file.filename, "url": s3_url})
+            uploaded_files.append({"file_name": new_filename, "url": s3_url})
         except Exception as e:
             return jsonify({"error": f"Failed to upload file: {file.filename}. Error: {str(e)}"}), 500
 
