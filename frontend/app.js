@@ -4,6 +4,7 @@ const baseApiEndpoint = "https://surmine-bec9180195b8.herokuapp.com/project-file
 async function fetchCustomers() {
     try {
         const response = await fetch(`${baseApiEndpoint}/list-customers`);
+        if (!response.ok) throw new Error("Failed to fetch customers.");
         const data = await response.json();
         const navigation = document.getElementById("navigation");
 
@@ -11,18 +12,22 @@ async function fetchCustomers() {
         data.customers.forEach(customer => {
             const customerDiv = document.createElement("div");
             customerDiv.textContent = customer;
+            customerDiv.classList.add("customer");
             customerDiv.addEventListener("click", () => fetchProjects(customer));
             navigation.appendChild(customerDiv);
         });
     } catch (error) {
         console.error("Error fetching customers:", error);
+        document.getElementById("content").innerHTML = `<p class="error">Unable to load customers.</p>`;
     }
 }
 
 // Fetch projects for a customer
 async function fetchProjects(customer) {
     try {
+        showLoading(`Loading projects for ${customer}...`);
         const response = await fetch(`${baseApiEndpoint}/list-projects/${customer}`);
+        if (!response.ok) throw new Error("Failed to fetch projects.");
         const data = await response.json();
         const content = document.getElementById("content");
 
@@ -30,22 +35,25 @@ async function fetchProjects(customer) {
         data.projects.forEach(project => {
             const projectDiv = document.createElement("div");
             projectDiv.textContent = project;
+            projectDiv.classList.add("project");
             projectDiv.addEventListener("click", () => fetchFiles(customer, project));
             content.appendChild(projectDiv);
         });
 
-        // Update upload button autofill
         document.getElementById("uploadButton").dataset.customer = customer;
         document.getElementById("uploadButton").dataset.project = "";
     } catch (error) {
         console.error("Error fetching projects:", error);
+        document.getElementById("content").innerHTML = `<p class="error">Unable to load projects for ${customer}.</p>`;
     }
 }
 
 // Fetch files for a project
 async function fetchFiles(customer, project) {
     try {
+        showLoading(`Loading files for ${project}...`);
         const response = await fetch(`${baseApiEndpoint}/list-files/${customer}/${project}`);
+        if (!response.ok) throw new Error("Failed to fetch files.");
         const data = await response.json();
         const content = document.getElementById("content");
 
@@ -53,15 +61,21 @@ async function fetchFiles(customer, project) {
         data.files.forEach(file => {
             const fileDiv = document.createElement("div");
             fileDiv.textContent = file;
+            fileDiv.classList.add("file");
             content.appendChild(fileDiv);
         });
 
-        // Update upload button autofill
         document.getElementById("uploadButton").dataset.customer = customer;
         document.getElementById("uploadButton").dataset.project = project;
     } catch (error) {
         console.error("Error fetching files:", error);
+        document.getElementById("content").innerHTML = `<p class="error">Unable to load files for ${project}.</p>`;
     }
+}
+
+// Show loading indicator
+function showLoading(message) {
+    document.getElementById("content").innerHTML = `<p class="loading">${message}</p>`;
 }
 
 // Handle upload button click
@@ -78,7 +92,11 @@ document.getElementById("uploadButton").addEventListener("click", () => {
 
 // Handle form submission for file upload
 document.getElementById("uploadForm").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
+
+    const uploadStatus = document.getElementById("uploadStatus");
+    uploadStatus.textContent = "Uploading...";
+    uploadStatus.style.display = "block";
 
     const formData = new FormData();
     const customer = document.getElementById("customer").value;
@@ -88,6 +106,7 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
 
     if (!customer || !project || files.length === 0) {
         alert("Please fill out all required fields and select at least one file!");
+        uploadStatus.style.display = "none";
         return;
     }
 
@@ -106,14 +125,16 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
 
         if (response.ok) {
             alert("Files uploaded successfully!");
-            document.getElementById("uploadModal").style.display = "none"; // Close upload form modal
-            fetchFiles(customer, project); // Refresh files view
+            document.getElementById("uploadModal").style.display = "none";
+            fetchFiles(customer, project);
         } else {
             alert("An error occurred while uploading files.");
         }
     } catch (error) {
         console.error("Error during upload:", error);
         alert("An unexpected error occurred while uploading files.");
+    } finally {
+        uploadStatus.style.display = "none";
     }
 });
 
