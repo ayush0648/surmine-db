@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from utils.s3_utils import list_s3_directories, list_s3_files, upload_file_to_s3
+from backend.utils.s3_utils import list_s3_directories, list_s3_files, upload_file_to_s3
 
 project_files_bp = Blueprint("project_files", __name__)
 
