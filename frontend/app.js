@@ -90,6 +90,17 @@ document.getElementById("uploadButton").addEventListener("click", () => {
     document.getElementById("uploadModal").style.display = "block";
 });
 
+// Handle "Upload New" button click
+document.getElementById("uploadNewButton").addEventListener("click", () => {
+    // Clear any autofilled customer and project values
+    document.getElementById("customer").value = "";
+    document.getElementById("project").value = "";
+    document.getElementById("folder").value = "";
+
+    // Show the upload form modal
+    document.getElementById("uploadModal").style.display = "block";
+});
+
 // Handle form submission for file upload
 document.getElementById("uploadForm").addEventListener("submit", async function (event) {
     event.preventDefault();
