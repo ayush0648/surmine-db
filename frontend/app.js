@@ -1,4 +1,38 @@
 const baseApiEndpoint = "https://surmine-bec9180195b8.herokuapp.com/project-files";
+// Check user location
+async function checkLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                console.log(`User location: ${latitude}, ${longitude}`);
+
+                // Send location to the server for validation
+                const response = await fetch("/check-location", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ latitude, longitude }),
+                });
+
+                if (response.ok) {
+                    console.log("Access granted.");
+                } else {
+                    alert("Access denied: You are outside the allowed area.");
+                    document.body.innerHTML = "<h1>Access Forbidden</h1>";
+                }
+            },
+            (error) => {
+                console.error("Error retrieving location:", error);
+                alert("Please enable location services to access this site.");
+            }
+        );
+    } else {
+        alert("Geolocation is not supported by your browser.");
+    }
+}
+
+// Run the location check on page load
+checkLocation();
 
 // Load initial data (customers)
 async function fetchCustomers() {
