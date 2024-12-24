@@ -13,7 +13,7 @@ CORS(app)
 
 # Office location and geofencing configuration
 OFFICE_COORDINATES = (28.4577008, 77.0513981)  # Latitude and Longitude of your office
-RADIUS_KM = 1  # Radius in kilometers
+RADIUS_KM = 0.5  # Radius in kilometers
 
 
 @app.route("/check-location", methods=["POST"])
