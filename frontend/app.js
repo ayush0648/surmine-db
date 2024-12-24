@@ -44,7 +44,7 @@ async function checkLocation() {
 function restrictAccess() {
     document.body.innerHTML = `
         <div style="text-align: center; margin-top: 20%;">
-            <img src="logo.png" alt="Logo" style="width: 150px;">
+            <img src="assets/logo.png" alt="Logo" style="width: 150px;">
             <h1>Access Forbidden</h1>
             <p>Please contact your administrator for assistance.</p>
         </div>
@@ -207,5 +207,3 @@ document.getElementById("cancelUpload").addEventListener("click", () => {
 });
 
 checkLocation();
-// Load customers on page load
-fetchCustomers();
