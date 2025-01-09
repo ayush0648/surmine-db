@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
-    padding-top: 100px; /* Add space for the fixed logo */
+    padding-top: 100px; /* Space for the fixed logo */
 }
 
 /* Header Styles */
@@ -129,9 +129,6 @@ input[type="text"]:hover, input[type="file"]:hover {
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
-    display: inline-block;
-    width: calc(90% - 30px);
-    position: relative;
 }
 
 .customer:hover, .project:hover, .file:hover {
@@ -143,21 +140,6 @@ input[type="text"]:hover, input[type="file"]:hover {
     transform: translateY(2px);
 }
 
-/* Download Icon Styling */
-.customer a, .project a, .file a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.2rem;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.customer a:hover, .project a:hover, .file a:hover {
-    color: #ff6f00;
-}
-
 /* Logo Styling */
 #logo {
     position: fixed;
@@ -166,15 +148,6 @@ input[type="text"]:hover, input[type="file"]:hover {
     width: 150px;
     height: auto;
     z-index: 1000;
-}
-
-/* Additional Enhancements */
-button, input[type="text"], input[type="file"] {
-    border-radius: 8px;
-}
-
-button:focus, input[type="text"]:focus, input[type="file"]:focus {
-    box-shadow: 0 0 5px rgba(255, 111, 0, 0.6); /* Focus effect */
 }
 
 /* Mobile Responsiveness */

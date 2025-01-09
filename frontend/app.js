@@ -1,55 +1,5 @@
 const baseApiEndpoint = "https://surmine-bec9180195b8.herokuapp.com/project-files";
 
-// Check user location
-async function checkLocation() {
-    const baseApiEndpoint = "https://surmine-bec9180195b8.herokuapp.com";
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const { latitude, longitude } = position.coords;
-
-                try {
-                    // Send location to the server for validation
-                    const response = await fetch(`${baseApiEndpoint}/check-location`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ latitude, longitude }),
-                    });
-
-                    if (!response.ok) {
-                        // If access is denied
-                        restrictAccess();
-                    } else {
-                        console.log("Access granted.");
-                        fetchCustomers(); // Load customers if access is granted
-                    }
-                } catch (error) {
-                    console.error("Error during location check:", error);
-                    restrictAccess();
-                }
-            },
-            (error) => {
-                console.error("Error retrieving location:", error);
-                restrictAccess();
-            }
-        );
-    } else {
-        alert("Geolocation is not supported by your browser.");
-        restrictAccess();
-    }
-}
-
-// Function to restrict access
-function restrictAccess() {
-    document.body.innerHTML = `
-        <div style="text-align: center; margin-top: 20%;">
-            <img src="assets/logo.png" alt="Logo" style="width: 150px;">
-            <h1>Access Forbidden</h1>
-            <p>Please contact your administrator for assistance.</p>
-        </div>
-    `;
-}
 
 // Load initial data (customers)
 async function fetchCustomers() {
@@ -235,4 +185,4 @@ document.getElementById("cancelUpload").addEventListener("click", () => {
     document.getElementById("uploadModal").style.display = "none";
 });
 
-checkLocation();
+fetchCustomers();
