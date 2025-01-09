@@ -51,7 +51,6 @@ function restrictAccess() {
     `;
 }
 
-
 // Load initial data (customers)
 async function fetchCustomers() {
     try {
@@ -66,6 +65,16 @@ async function fetchCustomers() {
             customerDiv.textContent = customer;
             customerDiv.classList.add("customer");
             customerDiv.addEventListener("click", () => fetchProjects(customer));
+
+            // Add download button for customer
+            const downloadCustomer = document.createElement("a");
+            downloadCustomer.href = `${baseApiEndpoint}/download-folder/${customer}`;
+            downloadCustomer.target = "_blank";
+            downloadCustomer.textContent = "⬇️";
+            downloadCustomer.title = "Download Customer";
+            downloadCustomer.style.marginLeft = "10px";
+
+            customerDiv.appendChild(downloadCustomer);
             navigation.appendChild(customerDiv);
         });
     } catch (error) {
@@ -89,6 +98,16 @@ async function fetchProjects(customer) {
             projectDiv.textContent = project;
             projectDiv.classList.add("project");
             projectDiv.addEventListener("click", () => fetchFiles(customer, project));
+
+            // Add download button for project
+            const downloadProject = document.createElement("a");
+            downloadProject.href = `${baseApiEndpoint}/download-folder/${customer}/${project}`;
+            downloadProject.target = "_blank";
+            downloadProject.textContent = "⬇️";
+            downloadProject.title = "Download Project";
+            downloadProject.style.marginLeft = "10px";
+
+            projectDiv.appendChild(downloadProject);
             content.appendChild(projectDiv);
         });
 
@@ -114,6 +133,16 @@ async function fetchFiles(customer, project) {
             const fileDiv = document.createElement("div");
             fileDiv.textContent = file;
             fileDiv.classList.add("file");
+
+            // Add download link for file
+            const downloadLink = document.createElement("a");
+            downloadLink.href = `${baseApiEndpoint}/download-file/${customer}/${project}/${encodeURIComponent(file)}`;
+            downloadLink.target = "_blank";
+            downloadLink.textContent = "⬇️";
+            downloadLink.title = "Download File";
+            downloadLink.style.marginLeft = "10px";
+
+            fileDiv.appendChild(downloadLink);
             content.appendChild(fileDiv);
         });
 
