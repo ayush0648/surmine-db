@@ -70,10 +70,5 @@ def download_folder(customer, project):
         return jsonify({"error": f"Failed to download folder: {str(e)}"}), 500
 
 
-# Error handler for forbidden access
-@app.errorhandler(403)
-def forbidden(e):
-    return jsonify({"error": "Access forbidden: Your location is not allowed."}), 403
-
 if __name__ == "__main__":
     app.run(debug=True)
